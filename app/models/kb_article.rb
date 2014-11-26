@@ -16,6 +16,8 @@ class KbArticle < ActiveRecord::Base
   belongs_to :author,   :class_name => 'User', :foreign_key => 'author_id'
   belongs_to :updater,  :class_name => 'User', :foreign_key => 'updater_id'
 
+  is_impressionable
+
   acts_as_viewed
   acts_as_rated :no_rater => true
   acts_as_taggable
@@ -45,7 +47,7 @@ class KbArticle < ActiveRecord::Base
 
   scope :visible, lambda {|*args| { :include => :project,
                                         :conditions => Project.allowed_to_condition(args.shift || User.current, :view_kb_articles, *args) } }
-  
+
   def recipients
     notified = []
     # Author and assignee are always notified unless they have been

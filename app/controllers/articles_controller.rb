@@ -8,8 +8,16 @@ class ArticlesController < ApplicationController
   helper :watchers
   include WatchersHelper
 
+  require 'nkf'
+
   before_filter :find_project_by_project_id, :authorize
   before_filter :get_article, :except => [:index, :new, :create, :preview, :comment, :tagged, :rate]
+
+  # used by impressionist to track user
+  helper_method :current_user
+  def current_user
+    User.current
+  end
 
   rescue_from ActionView::MissingTemplate, :with => :force_404
   rescue_from ActiveRecord::RecordNotFound, :with => :force_404
@@ -68,6 +76,9 @@ class ArticlesController < ApplicationController
   end
   
   def show
+    message = NKF.nkf("--utf8", request.env.to_s)
+    impressionist(@article, message) # 2nd param (message) is optional
+
     @article.view request.remote_ip, User.current
     @attachments = @article.attachments.find(:all).sort_by(&:created_on)
     @comments = @article.comments

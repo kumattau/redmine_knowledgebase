@@ -16,7 +16,7 @@ module KnowledgebaseHelper
         :category => link_to(article.category.title, {:controller => 'categories', :action => 'show', :id => article.category_id}))
     when "popular"
       l(:label_summary_popular_articles,
-        :count => article.view_count,
+        :count => article.impressions.where(:user_id => User.anonymous.id).count,
         :created => article.created_at.to_date.to_formatted_s(:rfc822))
     when "toprated"
       l(:label_summary_toprated_articles,
