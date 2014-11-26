@@ -6,6 +6,7 @@
   <% if @project.categories.length > 0 %>	
     <%= link_to_if_authorized l(:title_create_article), { :controller => 'articles', :action => 'new', :project_id => @project}, :class => 'icon icon-add' %>
   <% end %>
+  <%= link_to_if_authorized l(:title_view_analysis), { :controller => 'analysis', :action => 'index', :project_id => @project}, :class => 'icon icon-stats' %>
 </div>
 
 <% if @project.categories.count == 0 %>

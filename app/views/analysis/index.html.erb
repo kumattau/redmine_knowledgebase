@@ -1,0 +1,7 @@
+<% html_title l(:knowledgebase_title) %>
+<%= simple_table_for @impressions do |t| %>
+    <% t.column :created_at %>
+    <% t.column :impressionable_id %>
+    <% t.column :user_id %>
+    <% t.column :ip_address %>
+<% end %>

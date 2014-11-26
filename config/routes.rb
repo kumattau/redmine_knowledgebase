@@ -21,5 +21,7 @@ RedmineApp::Application.routes.draw do
 				get  "revert"
 			end
 		end
+
+		resources :analysis, :only => [:index]
 	end
 end
